@@ -24,7 +24,35 @@ module.exports.createUser = async (req, res, next) => {
 
 module.exports.getUser = async (req, res, next) => {
   try {
-    res.send('user data');
+    const {
+      params: { userId },
+    } = req;
+
+    // const users = await User.findAll({
+    //   where: {
+    //     id: userId
+    //   }
+    // });
+    // const [user] = users;
+
+    // пошук 1 запису по первинному ключу
+    const user = await User.findByPk(userId, {
+        attributes : {
+        exclude: ['password']
+      }
+    });
+
+    // пошук 1 запису якій проходить перевірку
+    // const user = await User.findOne({
+    //   where: {
+    //     id: userId
+    //   },
+    //   attributes : {
+    //     exclude: ['password']
+    //   }
+    // });
+
+    res.send(user);
   } catch (error) {
     next(error);
   }
@@ -80,8 +108,8 @@ module.exports.getUsers = async (req, res, next) => {
     // const users = await User.findAll({
     //   where: {
     //     // firstName: 'Test',
-    //     // id: { 
-    //     //   [Op.gt]: 1 
+    //     // id: {
+    //     //   [Op.gt]: 1
     //     // } ,
     //     [Op.and]: [{ firstName: 'Test' }, { id: { [Op.gt]: 1 } }],
     //   },
