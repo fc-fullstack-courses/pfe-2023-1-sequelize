@@ -39,7 +39,24 @@ module.exports.getUsers = async (req, res, next) => {
 
 module.exports.updateUser = async (req, res, next) => {
   try {
-    res.send('user updated');
+    const {body, params: {userId} } = req;
+
+    /*
+      UPDATE users SET last_name = 'iusdfkhdsfbdsh' WHERE id = 1;
+    */
+
+    // v1 через модель
+    const [updatedRows, [updatedUser]] = await User.update(body, {
+      where: {
+        id: userId
+      },
+      // RETURNING *
+      returning: true,
+      // RETURNING first_name, last_name
+      // returning: ['firstName', 'lastName']
+    });
+
+    res.send(updatedUser);
   } catch (error) {
     next(error);
   }
