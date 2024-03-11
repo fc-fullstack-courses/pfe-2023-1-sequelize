@@ -64,6 +64,17 @@ module.exports.updateUser = async (req, res, next) => {
 
 module.exports.deleteUser = async (req, res, next) => {
   try {
+    const { params: {userId}} = req;
+
+    /*
+      DELETE FROM users WHERE id = userId;
+    */
+    await User.destroy({
+      where: {
+        id: userId
+      }
+    });
+    
     res.send('user deleted');
   } catch (error) {
     next(error);
