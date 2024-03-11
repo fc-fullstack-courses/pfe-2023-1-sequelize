@@ -1,7 +1,21 @@
+const { User } = require('../models');
 
 module.exports.createUser = async (req, res, next) => {
   try {
-    res.send('user created');
+    const { body } = req;
+
+    // створення 1 запису (INSERT INTO)
+    const user = await User.create(body);
+
+    // стрворення декількох записів одночасно
+    /*
+      const users = await User.bulkCreate([
+        userData1,
+        userData2,
+      ]);
+    */
+
+    res.send(user);
   } catch (error) {
     next(error);
   }
