@@ -133,14 +133,21 @@ module.exports.updateUser = async (req, res, next) => {
     */
 
     // v1 через модель
-    const [updatedRows, [updatedUser]] = await User.update(body, {
-      where: {
-        id: userId,
-      },
-      // RETURNING *
-      returning: true,
-      // RETURNING first_name, last_name
-      // returning: ['firstName', 'lastName']
+    // const [updatedRows, [updatedUser]] = await User.update(body, {
+    //   where: {
+    //     id: userId,
+    //   },
+    //   // RETURNING *
+    //   returning: true,
+    //   // RETURNING first_name, last_name
+    //   // returning: ['firstName', 'lastName']
+    // });
+
+    // v2 через екземпляр
+    const user = await User.findByPk(userId);
+
+    const updatedUser = await user.update(body, {
+      returning: true
     });
 
     res.send(updatedUser);
