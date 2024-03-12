@@ -60,14 +60,21 @@ module.exports.getUser = async (req, res, next) => {
 
 module.exports.getUsers = async (req, res, next) => {
   try {
+    // параметри запиту урли (все після ?) знаходяться у query
+    const {query : {limit, offset}} = req;
+    
     /*
       SELECT * FROM users;
     */
-    const users = await User.findAll();
+    // const users = await User.findAll();
 
     /*
-    
+      SELECT * FROM users LIMIT x OFFSET y;
     */
+    const users = await User.findAll({
+      limit,
+      offset
+    });
 
     /*
       SELECT firstName, lastName, email, balance FROM users;
