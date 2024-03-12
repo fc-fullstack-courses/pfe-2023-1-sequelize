@@ -16,7 +16,7 @@ module.exports.createUser = async (req, res, next) => {
       ]);
     */
 
-    res.send(user);
+    res.send({ data: user });
   } catch (error) {
     next(error);
   }
@@ -52,7 +52,7 @@ module.exports.getUser = async (req, res, next) => {
     //   }
     // });
 
-    res.send(user);
+    res.send({ data: user });
   } catch (error) {
     next(error);
   }
@@ -124,7 +124,7 @@ module.exports.getUsers = async (req, res, next) => {
     //   },
     // });
 
-    res.send(users);
+    res.send({ data: users });
   } catch (error) {
     next(error);
   }
@@ -159,7 +159,7 @@ module.exports.updateUser = async (req, res, next) => {
       returning: true,
     });
 
-    res.send(updatedUser);
+    res.send({ data: updatedUser });
   } catch (error) {
     next(error);
   }
@@ -190,7 +190,7 @@ module.exports.deleteUser = async (req, res, next) => {
 
     await deletedUser.destroy();
 
-    res.send(deletedUser);
+    res.send({ data: deletedUser });
   } catch (error) {
     next(error);
   }
