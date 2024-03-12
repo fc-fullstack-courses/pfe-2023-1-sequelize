@@ -158,13 +158,23 @@ module.exports.deleteUser = async (req, res, next) => {
     /*
       DELETE FROM users WHERE id = userId;
     */
-    await User.destroy({
-      where: {
-        id: userId,
-      },
-    });
+    // v1 видалення через модель
+    // await User.destroy({
+    //   where: {
+    //     id: userId,
+    //   },
+    // });
 
-    res.send('user deleted');
+    // v2 видалення конкретного екземпляру
+    const deletedUser = await User.findByPk(userId);
+
+    if(!deletedUser) {
+      throw new Error('User not found');
+    }
+    
+    await deletedUser.destroy();
+
+    res.send(deletedUser);
   } catch (error) {
     next(error);
   }
