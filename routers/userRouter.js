@@ -1,8 +1,9 @@
 const userRouter = require('express').Router();
 const UserController = require('../controllers/userController');
+const paginationMW = require('../middlewares/pagination');
 
 userRouter.post('/', UserController.createUser);
-userRouter.get('/', UserController.getUsers);
+userRouter.get('/', paginationMW, UserController.getUsers);
 
 userRouter.get('/:userId', UserController.getUser);
 userRouter.put('/:userId', UserController.updateUser);

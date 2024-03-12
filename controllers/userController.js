@@ -37,9 +37,9 @@ module.exports.getUser = async (req, res, next) => {
 
     // пошук 1 запису по первинному ключу
     const user = await User.findByPk(userId, {
-        attributes : {
-        exclude: ['password']
-      }
+      attributes: {
+        exclude: ['password'],
+      },
     });
 
     // пошук 1 запису якій проходить перевірку
@@ -61,8 +61,11 @@ module.exports.getUser = async (req, res, next) => {
 module.exports.getUsers = async (req, res, next) => {
   try {
     // параметри запиту урли (все після ?) знаходяться у query
-    const {query : {limit, offset}} = req;
-    
+    const {
+      pagination: { limit, offset },
+      pagination,
+    } = req;
+
     /*
       SELECT * FROM users;
     */
@@ -72,8 +75,7 @@ module.exports.getUsers = async (req, res, next) => {
       SELECT * FROM users LIMIT x OFFSET y;
     */
     const users = await User.findAll({
-      limit,
-      offset
+      ...pagination,
     });
 
     /*
@@ -154,7 +156,7 @@ module.exports.updateUser = async (req, res, next) => {
     const user = await User.findByPk(userId);
 
     const updatedUser = await user.update(body, {
-      returning: true
+      returning: true,
     });
 
     res.send(updatedUser);
@@ -182,10 +184,10 @@ module.exports.deleteUser = async (req, res, next) => {
     // v2 видалення конкретного екземпляру
     const deletedUser = await User.findByPk(userId);
 
-    if(!deletedUser) {
+    if (!deletedUser) {
       throw new Error('User not found');
     }
-    
+
     await deletedUser.destroy();
 
     res.send(deletedUser);
