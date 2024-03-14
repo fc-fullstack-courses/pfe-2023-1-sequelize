@@ -9,6 +9,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate({ User }) {
       // define association here
+      
+      Chat.belongsToMany(User, {
+        // назва зв'язувальної таблиці
+        through: 'users_to_chats',
+        // атрибут з ключа зв'зувальної таблиці, пов'язаний з цією моделлю
+        foreignKey: 'chatId',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
     }
   }
   Chat.init(
