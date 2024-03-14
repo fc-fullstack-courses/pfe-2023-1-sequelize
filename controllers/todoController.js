@@ -15,14 +15,31 @@ module.exports.createTodo = async (req, res, next) => {
 
     const todo = await user.createTodo(body);
 
-    res.send({data: todo});
+    res.send({ data: todo });
   } catch (error) {
     next(error);
   }
 };
 
-module.exports.getTodos = async (req, res, next) => {
+module.exports.getUserTodos = async (req, res, next) => {
   try {
+    const {
+      params: { userId },
+    } = req;
+
+    // без магічних методів
+    // const todos = await Todo.findAll({
+    //   where: {
+    //     userId
+    //   }
+    // });
+
+    // магічні методи
+    const user = await User.findByPk(userId);
+
+    const todos = await user.getTodos();
+
+    res.send({ data: todos });
   } catch (error) {
     next(error);
   }
