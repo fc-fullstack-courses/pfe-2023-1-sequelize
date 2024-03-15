@@ -1,3 +1,4 @@
+const createError  = require('http-errors');
 const { User } = require('../models');
 
 module.exports.findUser = async (req, res, next) => {
@@ -7,7 +8,9 @@ module.exports.findUser = async (req, res, next) => {
     const user = await User.findByPk(userId);
 
     if(!user) {
-      throw new Error('User not found');
+      // throw new Error('User not found');
+      const error = createError(404, 'User not found');
+      throw error;
     }
 
     req.user = user;
