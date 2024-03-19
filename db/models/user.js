@@ -41,6 +41,13 @@ module.exports = (sequelize, DataTypes) => {
           notNull: true,
         },
       },
+      picturePath: {
+        type: DataTypes.TEXT,
+        field: 'picture_path',
+        validate: {
+          notEmpty: true
+        }
+      },
       lastName: {
         type: DataTypes.STRING(128),
         field: 'last_name',
